@@ -31,9 +31,16 @@ var myVar, xvar;
 
 let ob = {
  index : 1,
+ paused_in: undefined,
+ paused_second: undefined,
  duration: myvideo.duration,
  myFunction : () => {
+    /* this is the king script line to mange if user paused */
+    if (myvideo.currentTime < ob.paused_second) {
+    ob.index = ob.index;    
+    } else {
     ob.index += 1;
+    }
     console.log(ob.index);
     console.log(myvideo.duration)
     myvideo_text.textContent = ob.index - 1;
@@ -53,13 +60,18 @@ let ob = {
  myVar = setTimeout(ob.myFunction, 1000);
  },
  stopfun : (myVar)=> {
+ ob.paused_in = ob.index;
+ ob.paused_second = myvideo.currentTime;
+ 
+ console.log('User Paused the video in: ' + ob.paused_in);
+ console.log('video second in: ' + ob.paused_second);
+ 
  clearTimeout(myVar);
  
  ob.stopfun1(xvar);
  },
  stopfun1 : (xvar)=> {
  clearTimeout(xvar);
- bar.style.width = precent + "%";
  }
 }
 
@@ -72,4 +84,3 @@ myvideo.addEventListener("ended", ob.stopfun);
 </script>
 </body>
 </html>
-
