@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
 <body>
 
-<video id="demo" width="320" height="240" controls>
+<div class="container">
+<video id="demo" width="100%" height="240" controls>
   <source src="movie.mp4" type="video/mp4">
   <source src="movie.ogg" type="video/ogg">
   Your browser does not support the video tag.
 </video>
-
+  <div class="progress" style="width:100%;">
+    <div id="bar_value" class="progress-bar" style="width:0%"></div>
+  </div>
+ </div> 
 <p id="thetimer"></p>
 
 
 <script>
 const myvideo = document.getElementById("demo");
 const myvideo_text = document.getElementById("thetimer");
-
+const bar = document.getElementById("bar_value");
 var myVar, xvar;
 
 let ob = {
- index : 0,
+ index : 1,
+ duration: myvideo.duration,
  myFunction : () => {
     ob.index += 1;
     console.log(ob.index);
+    console.log(myvideo.duration)
+    myvideo_text.textContent = ob.index - 1;
+    let precent = Math.round(ob.index / myvideo.duration * 100);
+    
+    if (precent >= 100) {
+    bar.style.width = 100 + "%";
+    bar.textContent = 100 + "%";
+    } else {
+    bar.style.width = precent + "%";
+    bar.textContent = precent + "%";    
+    }
     xvar = setTimeout(ob.myFunction, 1000);
     
  },
@@ -30,11 +54,12 @@ let ob = {
  },
  stopfun : (myVar)=> {
  clearTimeout(myVar);
- myvideo_text.textContent = ob.index;
+ 
  ob.stopfun1(xvar);
  },
  stopfun1 : (xvar)=> {
  clearTimeout(xvar);
+ bar.style.width = precent + "%";
  }
 }
 
